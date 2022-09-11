@@ -10,13 +10,20 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    models/matrixmodel1.cpp \
     window.cpp \
     window_slots.cpp
 
 HEADERS += \
+    models/matrixmodel1.h \
     window.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    models/r.txt \
+    models/Текстовый документ.txt \
+    models/Текстовый документ.txt

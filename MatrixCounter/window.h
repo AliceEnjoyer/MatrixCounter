@@ -2,13 +2,14 @@
 #define WINDOW_H
 
 #include <QtWidgets>
+#include "models/matrixmodel1.h"
 
 class window : public QWidget {
     Q_OBJECT
 private:
     QVBoxLayout* vbl;
-    QTableWidget* pMatrix1; // A matrix
-    QTableWidget* pMatrix2; // B matrix
+    MatrixModel1* pMatrix1Model; // A matrix
+    MatrixModel1* pMatrix2Model; // B matrix
     QTableWidget* pMatrix3; // C matrix
 
     QPushButton* bSetNewMatrixSize;
@@ -41,5 +42,6 @@ private slots:
     void slotPlusClicked();
     void slotMinusClicked();
     void slotMultiplyClicked();
+    void slotSwapMatrices();
 };
 #endif // WINDOW_H

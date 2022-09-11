@@ -3,9 +3,15 @@
 window::window(QWidget *parent) : QWidget(parent) {
 
     //init vars
-    pMatrix1 = new QTableWidget();
-    pMatrix2 = new QTableWidget();
+    pMatrix1Model = new MatrixModel1(0, 0);
+    pMatrix2Model = new MatrixModel1(0, 0);
     pMatrix3 = new QTableWidget();
+
+    QTableView *Matrix1View = new QTableView;
+    QTableView *Matrix2View = new QTableView;
+    //QTableView *Matrix3View = new QTableView;
+    Matrix1View->setModel(pMatrix1Model);
+    Matrix2View->setModel(pMatrix2Model);
 
     bPlus = new QPushButton("A + B");
     bMinus = new QPushButton("A - B");
@@ -67,8 +73,8 @@ window::window(QWidget *parent) : QWidget(parent) {
     //vbl1->setSpacing();
 
     QVBoxLayout *vbl2 = new QVBoxLayout;
-    vbl2->addWidget(pMatrix1);
-    vbl2->addWidget(pMatrix2);
+    vbl2->addWidget(Matrix1View);
+    vbl2->addWidget(Matrix2View);
     vbl2->addWidget(bSetNewMatrixSize);
 
     QVBoxLayout *vbl3 = new QVBoxLayout;
