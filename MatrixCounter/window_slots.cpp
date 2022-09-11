@@ -56,15 +56,12 @@ void window::slotPlusClicked() {
         QMessageBox::information(0, "ERROR", "Matrices do not have same size");
         return;
     }
-    pMatrix3->setRowCount(pMatrix1Model->rowCount());
-    pMatrix3->setColumnCount(pMatrix1Model->columnCount());
+    pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
+    pMatrix3Model->setColumnCount(pMatrix1Model->columnCount());
     if(pMatrix1Model->rowCount() == pMatrix2Model->rowCount() && pMatrix1Model->columnCount() == pMatrix2Model->columnCount()) {
         for(int i = 0 ; i < pMatrix1Model->rowCount() ; ++i) {
             for(int j = 0; j < pMatrix1Model->columnCount() ; ++j) {
-                int bufI1 = pMatrix1Model->data(i, j);
-                int bufI2 = pMatrix2Model->data(i, j);
-                auto model = pMatrix3->model();
-                model->setData(model->index(i, j), QString::number(bufI1 + bufI2));
+                pMatrix3Model->setData(i, j, pMatrix1Model->data(i, j) + pMatrix2Model->data(i, j));
 
             }
         }
@@ -75,15 +72,12 @@ void window::slotMinusClicked() {
         QMessageBox::information(0, "ERROR", "Matrices do not have same size");
         return;
     }
-    pMatrix3->setRowCount(pMatrix1Model->rowCount());
-    pMatrix3->setColumnCount(pMatrix1Model->columnCount());
+    pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
+    pMatrix3Model->setColumnCount(pMatrix1Model->columnCount());
     if(pMatrix1Model->rowCount() == pMatrix2Model->rowCount() && pMatrix1Model->columnCount() == pMatrix2Model->columnCount()) {
         for(int i = 0 ; i < pMatrix1Model->rowCount() ; ++i) {
             for(int j = 0; j < pMatrix1Model->columnCount() ; ++j) {
-                int bufI1 = pMatrix1Model->data(i, j);
-                int bufI2 = pMatrix2Model->data(i, j);
-                auto model = pMatrix3->model();
-                model->setData(model->index(i, j), QString::number(bufI1 - bufI2));
+                pMatrix3Model->setData(i, j, pMatrix1Model->data(i, j) - pMatrix2Model->data(i, j));
 
             }
         }
@@ -91,7 +85,11 @@ void window::slotMinusClicked() {
 }
 
 void window::slotSwapMatrices() {
-
+    if(!isABEqual) {
+        QMessageBox::information(0, "ERROR", "Matrices do not have same size");
+        return;
+    }
+    pMatrix1Model->SwapMat(pMatrix2Model->GetMat());
 }
 
 void window::slotMultiplyClicked() {

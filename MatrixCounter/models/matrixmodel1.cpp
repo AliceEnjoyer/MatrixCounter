@@ -49,14 +49,12 @@ void MatrixModel1::setColumnCount(int colCount) {
     emit layoutChanged();
 }
 
-bool MatrixModel1::insertRows(int row, int count, const QModelIndex &index) {
-    if(index.isValid()) return false;
+QHash<QModelIndex, int>* MatrixModel1::GetMat() {
+    return &mat;
+}
 
-    beginInsertRows(QModelIndex(), row, count - 1);
-    for(int i = 0; i < count ; ++i){
-        mat.insert(index, 0);
-    }
-    endInsertRows();
-
-    return true;
+void MatrixModel1::SwapMat(QHash<QModelIndex, int>* newMat) {
+beginResetModel();
+    mat.swap(*newMat);
+endResetModel();
 }

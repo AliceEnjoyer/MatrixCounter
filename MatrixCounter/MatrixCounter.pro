@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     models/matrixmodel1.cpp \
+    models/matrixmodel2.cpp \
     window.cpp \
     window_slots.cpp
 
 HEADERS += \
     models/matrixmodel1.h \
+    models/matrixmodel2.h \
     window.h
 
 # Default rules for deployment.

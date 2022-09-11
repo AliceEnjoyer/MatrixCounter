@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "models/matrixmodel1.h"
+#include "models/matrixmodel2.h"
 
 class window : public QWidget {
     Q_OBJECT
@@ -10,7 +11,7 @@ private:
     QVBoxLayout* vbl;
     MatrixModel1* pMatrix1Model; // A matrix
     MatrixModel1* pMatrix2Model; // B matrix
-    QTableWidget* pMatrix3; // C matrix
+    MatrixModel2* pMatrix3Model; // С matrix
 
     QPushButton* bSetNewMatrixSize;
     QPushButton* bPlus;

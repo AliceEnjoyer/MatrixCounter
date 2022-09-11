@@ -5,18 +5,20 @@ window::window(QWidget *parent) : QWidget(parent) {
     //init vars
     pMatrix1Model = new MatrixModel1(0, 0);
     pMatrix2Model = new MatrixModel1(0, 0);
-    pMatrix3 = new QTableWidget();
+    pMatrix3Model = new MatrixModel2(0, 0);
 
     QTableView *Matrix1View = new QTableView;
     QTableView *Matrix2View = new QTableView;
-    //QTableView *Matrix3View = new QTableView;
+    QTableView *Matrix3View = new QTableView;
     Matrix1View->setModel(pMatrix1Model);
     Matrix2View->setModel(pMatrix2Model);
+    Matrix3View->setModel(pMatrix3Model);
 
     bPlus = new QPushButton("A + B");
     bMinus = new QPushButton("A - B");
     bMultiply = new QPushButton("A * B");
     bSetNewMatrixSize = new QPushButton("Set matrix size...");
+    bSwapMatrices = new QPushButton("Swap A and B");
 
     bPlus->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     bMinus->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -65,6 +67,7 @@ window::window(QWidget *parent) : QWidget(parent) {
     connect(bPlus, &QPushButton::clicked, this, &window::slotPlusClicked);
     connect(bMinus, &QPushButton::clicked, this, &window::slotMinusClicked);
     connect(bMultiply, &QPushButton::clicked, this, &window::slotMultiplyClicked);
+    connect(bSwapMatrices, &QPushButton::clicked, this, &window::slotSwapMatrices);
 
 /////// Layout setup
     QVBoxLayout *vbl1 = new QVBoxLayout;
@@ -74,6 +77,7 @@ window::window(QWidget *parent) : QWidget(parent) {
 
     QVBoxLayout *vbl2 = new QVBoxLayout;
     vbl2->addWidget(Matrix1View);
+    vbl2->addWidget(bSwapMatrices);
     vbl2->addWidget(Matrix2View);
     vbl2->addWidget(bSetNewMatrixSize);
 
@@ -85,7 +89,7 @@ window::window(QWidget *parent) : QWidget(parent) {
     QVBoxLayout *vbl4 = new QVBoxLayout;
     QHBoxLayout *hblBuf1 = new QHBoxLayout;
     hblBuf1->addWidget(new QLabel("               C: "));
-    hblBuf1->addWidget(pMatrix3);
+    hblBuf1->addWidget(Matrix3View);
     vbl4->addLayout(hblBuf1);
 
     QHBoxLayout *hbl = new QHBoxLayout;
