@@ -49,12 +49,25 @@ void MatrixModel1::setColumnCount(int colCount) {
     emit layoutChanged();
 }
 
-QHash<QModelIndex, int>* MatrixModel1::GetMat() {
-    return &mat;
+QHash<QModelIndex, int> MatrixModel1::GetMat() {
+    return mat;
 }
 
-void MatrixModel1::SwapMat(QHash<QModelIndex, int>* newMat) {
-beginResetModel();
-    mat.swap(*newMat);
-endResetModel();
+void MatrixModel1::setData(int i, int j, const int& data) {
+    QModelIndex ind = index(i, j);
+    beginInsertColumns(ind,0, 1);
+    mat.insert(ind, data);
+    endInsertColumns();
+}
+
+void MatrixModel1::clearData() {
+    beginResetModel();
+    mat.clear();
+    endResetModel();
+}
+
+void MatrixModel1::SetMat(QHash<QModelIndex, int> newmat) {
+    beginResetModel();
+    mat.swap(newmat);
+    endResetModel();
 }

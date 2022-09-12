@@ -11,6 +11,8 @@ public:
     QVariant data (const QModelIndex& index, int role) const override;
     int data (int i, int j) const;
     bool setData (const QModelIndex& index, const QVariant& data, int role) override;
+    void setData (int i, int j, const int& data);
+    void clearData();
 
     int rowCount (const QModelIndex& index = QModelIndex()) const override;
     int columnCount ( const QModelIndex& parent = QModelIndex()) const override;
@@ -21,8 +23,8 @@ public:
     void setRowCount (int);
     void setColumnCount (int);
 
-    QHash<QModelIndex, int>* GetMat();
-    void SwapMat(QHash<QModelIndex, int>*);
+    QHash<QModelIndex, int> GetMat();
+    void SetMat(QHash<QModelIndex, int>);
 private:
     QHash<QModelIndex, int> mat;
     int rows;

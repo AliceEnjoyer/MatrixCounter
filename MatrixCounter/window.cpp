@@ -108,7 +108,5 @@ window::window(QWidget *parent) : QWidget(parent) {
     vbl->setAlignment(BMatInfo, Qt::AlignHCenter);
 
     setLayout(vbl);
-
-    //testGetFromMatrix(1, 2);
 }
 

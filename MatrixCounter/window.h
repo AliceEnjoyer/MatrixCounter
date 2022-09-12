@@ -33,9 +33,6 @@ private:
 
 public:
     window(QWidget *parent = nullptr);
-    void testGetFromMatrix();
-private:
-    void multMats(QVector<QVector<int>>, QVector<QVector<int>>);
 private slots:
     void slotSetNewMatrixSizeFromDialog();
     void slotDioSetNewMatSizeShow();
