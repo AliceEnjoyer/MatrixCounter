@@ -1,2 +1,2 @@
 # MatrixCounter
-it is an application that count matrix 
+it is an application that calculates matrices 
