@@ -59,7 +59,6 @@ void window::slotPlusClicked() {
     for(int i = 0 ; i < pMatrix1Model->rowCount() ; ++i) {
         for(int j = 0; j < pMatrix1Model->columnCount() ; ++j) {
             pMatrix3Model->setData(i, j, pMatrix1Model->data(i, j) + pMatrix2Model->data(i, j));
-
         }
     }
 }
@@ -73,44 +72,26 @@ void window::slotMinusClicked() {
     for(int i = 0 ; i < pMatrix1Model->rowCount() ; ++i) {
         for(int j = 0; j < pMatrix1Model->columnCount() ; ++j) {
             pMatrix3Model->setData(i, j, pMatrix1Model->data(i, j) - pMatrix2Model->data(i, j));
-
         }
     }
 }
 
 void window::slotSwapMatrices() {
-    QHash<QModelIndex, int> bufMat1 = pMatrix1Model->GetMat();
-    QHash<QModelIndex, int> bufMat2 = pMatrix2Model->GetMat();
+    QVector<QVector<int>> mat1 = pMatrix1Model->GetVectoredMat();
+    QVector<QVector<int>> mat2 = pMatrix2Model->GetVectoredMat();
     pMatrix1Model->clearData();
     pMatrix2Model->clearData();
-    int rows = pMatrix1Model->rowCount();
-    int cols = pMatrix1Model->columnCount();
-    pMatrix1Model->setRowCount(pMatrix2Model->rowCount());
-    pMatrix1Model->setColumnCount(pMatrix2Model->columnCount());
-    pMatrix2Model->setRowCount(rows);
-    pMatrix2Model->setColumnCount(cols);
-    pMatrix1Model->SetMat(bufMat2);
-    pMatrix2Model->SetMat(bufMat1);
+    int rows1 = pMatrix1Model->rowCount();
+    int cols1 = pMatrix1Model->columnCount();
+    int rows2 = pMatrix2Model->rowCount();
+    int cols2 = pMatrix2Model->columnCount();
+    pMatrix1Model->setRowCount(rows2);
+    pMatrix1Model->setColumnCount(cols2);
+    pMatrix2Model->setRowCount(rows1);
+    pMatrix2Model->setColumnCount(cols1);
 
-//    int rows2 = ;
-//    int cols2 = ;
-//
-//    pMatrix1Model->setRowCount(rows2);
-//    pMatrix1Model->setColumnCount(cols2);
-//    pMatrix2Model->setRowCount(rows1);
-//    pMatrix2Model->setColumnCount(cols1);
-//    for (int i = 0; i < rows1; ++i) {
-//        for (int j = 0; j < cols1; ++j) {
-//            pMatrix2Model->setData(i, j, bufMat1.value(pMatrix1Model->index(i, j)));
-//            qDebug() << "2\n";
-//        }
-//    }
-//    for (int i = 0; i < rows2; ++i) {
-//        for (int j = 0; j < cols2; ++j) {
-//            pMatrix1Model->setData(i, j, bufMat2.value(pMatrix2Model->index(i, j)));
-//            qDebug() << "1\n";
-//        }
-//    }
+    for (int i = 0; i < rows1; ++i) { for (int j = 0; j < cols1; ++j) { pMatrix2Model->setData(i, j, mat1[i][j]); } }
+    for (int i = 0; i < rows2; ++i) { for (int j = 0; j < cols2; ++j) { pMatrix1Model->setData(i, j, mat2[i][j]); } }
 }
 
 void window::slotMultiplyClicked() {
@@ -120,24 +101,18 @@ void window::slotMultiplyClicked() {
     }
     pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
     pMatrix3Model->setColumnCount(pMatrix2Model->columnCount());
-    QHash<QModelIndex, int> mat1 = pMatrix1Model->GetMat();
-    QHash<QModelIndex, int> mat2 = pMatrix2Model->GetMat();
-    QHash<QModelIndex, int> mat;
-    for (int i = 0; i < pMatrix2Model->columnCount(); ++i){
-        for (int j = 0; j < pMatrix2Model->rowCount(); ++j){
-            mat.insert(pMatrix2Model->index(i, j), mat2.value(pMatrix2Model->index(j, i)));
+    QVector<QVector<int>> mat1 = pMatrix1Model->GetVectoredMat();
+    QVector<QVector<int>> mat2 = pMatrix2Model->GetVectoredMat();
+    QVector<QVector<int>> bufMat;
+
+    for (int j2 = 0 ; j2 < pMatrix2Model->columnCount(); ++j2) {
+        QVector<int> bufArr;
+        for (int i1 = 0; i1 < pMatrix1Model->rowCount(); ++i1) {
+            int buf = 0;
+            for(int j = 0 ; j < pMatrix1Model->columnCount() ; ++ j) {
+                buf += mat1[i1][j] * mat2[j][j2];
+            }
+            pMatrix3Model->setData(i1, j2, buf);
         }
     }
-
-        for (int i2 = 0 ; i2 < pMatrix2Model->columnCount(); ++i2) {
-            for (int i = 0; i < pMatrix1Model->rowCount(); ++i){
-                int buf = 0;
-                for (int j = 0; j < pMatrix1Model->columnCount(); ++j){
-                    buf += mat1.value(pMatrix1Model->index(i, j)) * mat.value(pMatrix2Model->index(i2, j));
-                }
-
-
-        }
-    }
-    //pMatrix3Model->setData(i, b, buf);
 }

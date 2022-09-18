@@ -71,3 +71,14 @@ void MatrixModel1::SetMat(QHash<QModelIndex, int> newmat) {
     mat.swap(newmat);
     endResetModel();
 }
+QVector<QVector<int>> MatrixModel1::GetVectoredMat() {
+    QVector<QVector<int>> vecMat;
+    for (int i = 0 ; i < rows ; ++i) {
+        QVector<int> buf;
+        for(int j = 0 ; j < cols ; ++j) {
+            buf.push_back(mat.value(index(i, j)));
+        }
+        vecMat.push_back(buf);
+    }
+    return vecMat;
+}
