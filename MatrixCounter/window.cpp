@@ -13,6 +13,12 @@ window::window(QWidget *parent) : QWidget(parent) {
     Matrix1View->setModel(pMatrix1Model);
     Matrix2View->setModel(pMatrix2Model);
     Matrix3View->setModel(pMatrix3Model);
+    Matrix1View->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    Matrix2View->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    Matrix3View->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    Matrix1View->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    Matrix2View->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    Matrix3View->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     bPlus = new QPushButton("A + B");
     bMinus = new QPushButton("A - B");
