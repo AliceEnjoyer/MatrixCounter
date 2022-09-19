@@ -1,2 +1,2 @@
 # MatrixCounter
-it is an application that calculates matrices 
+it is an application for CHSBC that calculates matrices 
