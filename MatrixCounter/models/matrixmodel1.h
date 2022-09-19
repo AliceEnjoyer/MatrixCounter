@@ -23,9 +23,7 @@ public:
     void setRowCount (int);
     void setColumnCount (int);
 
-    QHash<QModelIndex, int> GetMat();
     QVector<QVector<int>> GetVectoredMat();
-    void SetMat(QHash<QModelIndex, int>);
 private:
     QHash<QModelIndex, int> mat;
     int rows;

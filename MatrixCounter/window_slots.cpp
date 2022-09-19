@@ -6,34 +6,20 @@ void window::slotSetNewMatrixSizeFromDialog() {
     pMatrix2Model->setRowCount(bSetRowsSize2->text().toInt());
     pMatrix2Model->setColumnCount(bSetColsSize2->text().toInt());
 
-    if(pMatrix1Model->rowCount() == 0 || pMatrix1Model->columnCount() == 0) {
-        AMatInfo->setText("A is empty");
-        return;
-    } else if(pMatrix1Model->rowCount() == pMatrix1Model->columnCount()){
-        AMatInfo->setText("A is a square matrix");
-
-    } else {
+    if(pMatrix1Model->rowCount() == 0 || pMatrix1Model->columnCount() == 0) { AMatInfo->setText("A is empty"); }
+    else if(pMatrix1Model->rowCount() == pMatrix1Model->columnCount()){ AMatInfo->setText("A is a square matrix"); }
+    else {
         AMatInfo->setText("A is a rectangular matrix");
-        if(pMatrix1Model->rowCount() == 1 && pMatrix1Model->columnCount() > 1) {
-            AMatInfo->setText(AMatInfo->text() + "; A is a row matrix");
-        } else if (pMatrix1Model->columnCount() == 1 && pMatrix1Model->rowCount() > 1) {
-            AMatInfo->setText(AMatInfo->text() + "; A is a column matrix");
-        }
+        if(pMatrix1Model->rowCount() == 1 && pMatrix1Model->columnCount() > 1) { AMatInfo->setText(AMatInfo->text() + "; A is a row matrix"); }
+        else if (pMatrix1Model->columnCount() == 1 && pMatrix1Model->rowCount() > 1) { AMatInfo->setText(AMatInfo->text() + "; A is a column matrix"); }
     }
 
-    if(pMatrix2Model->rowCount() == 0 || pMatrix2Model->columnCount() == 0) {
-        BMatInfo->setText("B is empty");
-        return;
-    } else if(pMatrix2Model->rowCount() == pMatrix2Model->columnCount()) {
-        BMatInfo->setText("B is a square matrix");
-
-    } else {
+    if(pMatrix2Model->rowCount() == 0 || pMatrix2Model->columnCount() == 0) { BMatInfo->setText("B is empty"); }
+    else if(pMatrix2Model->rowCount() == pMatrix2Model->columnCount()) { BMatInfo->setText("B is a square matrix"); }
+    else {
         BMatInfo->setText("B is a rectangular matrix");
-        if(pMatrix2Model->rowCount() == 1 && pMatrix2Model->columnCount() > 1) {
-            BMatInfo->setText(BMatInfo->text() + "; B is a row matrix");
-        } else if (pMatrix2Model->columnCount() == 1 && pMatrix2Model->rowCount() > 1) {
-            BMatInfo->setText(BMatInfo->text() + "; B is a column matrix");
-        }
+        if(pMatrix2Model->rowCount() == 1 && pMatrix2Model->columnCount() > 1) { BMatInfo->setText(BMatInfo->text() + "; B is a row matrix"); }
+        else if (pMatrix2Model->columnCount() == 1 && pMatrix2Model->rowCount() > 1) { BMatInfo->setText(BMatInfo->text() + "; B is a column matrix"); }
     }
     if(pMatrix1Model->rowCount() == pMatrix2Model->rowCount() &&
        pMatrix1Model->columnCount() == pMatrix2Model->columnCount()) isABEqual = true;
@@ -103,15 +89,12 @@ void window::slotMultiplyClicked() {
     pMatrix3Model->setColumnCount(pMatrix2Model->columnCount());
     QVector<QVector<int>> mat1 = pMatrix1Model->GetVectoredMat();
     QVector<QVector<int>> mat2 = pMatrix2Model->GetVectoredMat();
-    QVector<QVector<int>> bufMat;
 
     for (int j2 = 0 ; j2 < pMatrix2Model->columnCount(); ++j2) {
         QVector<int> bufArr;
         for (int i1 = 0; i1 < pMatrix1Model->rowCount(); ++i1) {
             int buf = 0;
-            for(int j = 0 ; j < pMatrix1Model->columnCount() ; ++ j) {
-                buf += mat1[i1][j] * mat2[j][j2];
-            }
+            for(int j = 0 ; j < pMatrix1Model->columnCount() ; ++ j) { buf += mat1[i1][j] * mat2[j][j2]; }
             pMatrix3Model->setData(i1, j2, buf);
         }
     }
