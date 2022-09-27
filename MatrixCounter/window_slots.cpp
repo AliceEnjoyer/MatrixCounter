@@ -81,8 +81,21 @@ void window::slotSwapMatrices() {
 }
 
 void window::slotMultiplyClicked() {
+    if(pMatrix2Model->rowCount() == 1 && pMatrix2Model->columnCount() == 1){
+        pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
+        pMatrix3Model->setColumnCount(pMatrix1Model->columnCount());
+        QVector<QVector<int>> mat = pMatrix1Model->GetVectoredMat();
+        int s = pMatrix2Model->data(0, 0);
+        for(int i = 0; i < pMatrix1Model->rowCount(); ++i){
+            for(int j = 0 ; j < pMatrix1Model->columnCount(); ++j){
+                pMatrix3Model->setData(i, j, s * mat[i][j]);
+            }
+        }
+
+        return;
+    }
     if(pMatrix1Model->columnCount() != pMatrix2Model->rowCount()) {
-        QMessageBox::information(0, "ERROR", "Matrices are not negotiated");
+        QMessageBox::information(0, "ERROR", "Matrices are not negotiated or matrix B has more than one item");
         return;
     }
     pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
