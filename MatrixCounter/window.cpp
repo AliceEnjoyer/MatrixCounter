@@ -25,6 +25,8 @@ window::window(QWidget *parent) : QWidget(parent) {
     bMultiply = new QPushButton("A * B");
     bSetNewMatrixSize = new QPushButton("Set matrix size...");
     bSwapMatrices = new QPushButton("Swap A and B");
+    bFindReversedA = new QPushButton("Find reversed A");
+    bFindReversedB = new QPushButton("Find reversed B");
 
     bPlus->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     bMinus->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -74,6 +76,8 @@ window::window(QWidget *parent) : QWidget(parent) {
     connect(bMinus, &QPushButton::clicked, this, &window::slotMinusClicked);
     connect(bMultiply, &QPushButton::clicked, this, &window::slotMultiplyClicked);
     connect(bSwapMatrices, &QPushButton::clicked, this, &window::slotSwapMatrices);
+    connect(bFindReversedA, &QPushButton::clicked, this, &window::slotFindReversedA);
+    connect(bFindReversedB, &QPushButton::clicked, this, &window::slotFindReversedB);
 
 /////// Layout setup
     QVBoxLayout *vbl1 = new QVBoxLayout;
@@ -86,6 +90,9 @@ window::window(QWidget *parent) : QWidget(parent) {
     vbl2->addWidget(bSwapMatrices);
     vbl2->addWidget(Matrix2View);
     vbl2->addWidget(bSetNewMatrixSize);
+    vbl2->addSpacing(14);
+    vbl2->addWidget(bFindReversedA);
+    vbl2->addWidget(bFindReversedB);
 
     QVBoxLayout *vbl3 = new QVBoxLayout;
     vbl3->addWidget(bPlus);

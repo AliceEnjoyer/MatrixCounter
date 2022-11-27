@@ -40,6 +40,9 @@ void MatrixModel2::setColumnCount(int colCount) {
     emit layoutChanged();
 }
 
-void MatrixModel2::setData(int i, int j, const int& data) {
-    mat.insert(index(i, j), data);
+void MatrixModel2::setData(int i, int j, const double& data) {
+    QModelIndex ind = index(i, j);
+    beginInsertColumns(ind,0, 1);
+    mat.insert(ind, data);
+    endInsertColumns();
 }

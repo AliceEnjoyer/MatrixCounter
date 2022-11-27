@@ -18,6 +18,8 @@ private:
     QPushButton* bMinus;
     QPushButton* bMultiply;
     QPushButton* bSwapMatrices;
+    QPushButton* bFindReversedA;
+    QPushButton* bFindReversedB;
 
     QDialog* dioSetNewMatSize;
     QLineEdit* bSetRowsSize1;
@@ -41,5 +43,8 @@ private slots:
     void slotMinusClicked();
     void slotMultiplyClicked();
     void slotSwapMatrices();
+    void slotFindReversedA();
+    void slotFindReversedB();
+
 };
 #endif // WINDOW_H

@@ -49,7 +49,7 @@ void MatrixModel1::setColumnCount(int colCount) {
     emit layoutChanged();
 }
 
-void MatrixModel1::setData(int i, int j, const int& data) {
+void MatrixModel1::setData(int i, int j, const double& data) {
     QModelIndex ind = index(i, j);
     beginInsertColumns(ind,0, 1);
     mat.insert(ind, data);
@@ -62,10 +62,10 @@ void MatrixModel1::clearData() {
     endResetModel();
 }
 
-QVector<QVector<int>> MatrixModel1::GetVectoredMat() {
-    QVector<QVector<int>> vecMat;
+QVector<QVector<double>> MatrixModel1::GetVectoredMat() {
+    QVector<QVector<double>> vecMat;
     for (int i = 0 ; i < rows ; ++i) {
-        QVector<int> buf;
+        QVector<double> buf;
         for(int j = 0 ; j < cols ; ++j) { buf.push_back(mat.value(index(i, j))); }
         vecMat.push_back(buf);
     }

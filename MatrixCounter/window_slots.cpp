@@ -63,8 +63,8 @@ void window::slotMinusClicked() {
 }
 
 void window::slotSwapMatrices() {
-    QVector<QVector<int>> mat1 = pMatrix1Model->GetVectoredMat();
-    QVector<QVector<int>> mat2 = pMatrix2Model->GetVectoredMat();
+    QVector<QVector<double>> mat1 = pMatrix1Model->GetVectoredMat();
+    QVector<QVector<double>> mat2 = pMatrix2Model->GetVectoredMat();
     pMatrix1Model->clearData();
     pMatrix2Model->clearData();
     int rows1 = pMatrix1Model->rowCount();
@@ -84,7 +84,7 @@ void window::slotMultiplyClicked() {
     if(pMatrix2Model->rowCount() == 1 && pMatrix2Model->columnCount() == 1){
         pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
         pMatrix3Model->setColumnCount(pMatrix1Model->columnCount());
-        QVector<QVector<int>> mat = pMatrix1Model->GetVectoredMat();
+        QVector<QVector<double>> mat = pMatrix1Model->GetVectoredMat();
         int s = pMatrix2Model->data(0, 0);
         for(int i = 0; i < pMatrix1Model->rowCount(); ++i){
             for(int j = 0 ; j < pMatrix1Model->columnCount(); ++j){
@@ -100,8 +100,8 @@ void window::slotMultiplyClicked() {
     }
     pMatrix3Model->setRowCount(pMatrix1Model->rowCount());
     pMatrix3Model->setColumnCount(pMatrix2Model->columnCount());
-    QVector<QVector<int>> mat1 = pMatrix1Model->GetVectoredMat();
-    QVector<QVector<int>> mat2 = pMatrix2Model->GetVectoredMat();
+    QVector<QVector<double>> mat1 = pMatrix1Model->GetVectoredMat();
+    QVector<QVector<double>> mat2 = pMatrix2Model->GetVectoredMat();
 
     for (int j2 = 0 ; j2 < pMatrix2Model->columnCount(); ++j2) {
         QVector<int> bufArr;
@@ -109,6 +109,134 @@ void window::slotMultiplyClicked() {
             int buf = 0;
             for(int j = 0 ; j < pMatrix1Model->columnCount() ; ++ j) { buf += mat1[i1][j] * mat2[j][j2]; }
             pMatrix3Model->setData(i1, j2, buf);
+        }
+    }
+}
+
+void window::slotFindReversedA() {
+    if(pMatrix1Model->rowCount() != pMatrix1Model->columnCount() || pMatrix1Model->rowCount() == 0 || pMatrix1Model->columnCount() == 0) {
+        QMessageBox::information(0, "ERROR", "Matrix is not a square matrix");
+        return;
+    }
+    QVector<QVector<double>> bufDet = pMatrix1Model->GetVectoredMat(); // buffer determ.
+    QVector<QVector<double>> res;
+
+    int detSize = bufDet.size(); // size of determ.
+
+    for(int i = 0; i < detSize; ++i) {
+        res.append(QVector<double>());
+        for (int j = 0; j < detSize; ++j) {
+            if(i == j) res[i].append(1);
+            else res[i].append(0);
+        }
+    }
+
+    for(int m = 0; m < detSize; ++m){
+        for (int row = m + 1; row < detSize; ++row) {
+            for (int count = row; bufDet[m][m] == 0 && count < detSize; ++count) {
+                bufDet[m].swap(bufDet[count]);
+                res[m].swap(res[count]);
+            }
+            if(bufDet[m][m] == 0) {
+                break;
+            }
+            double k = bufDet[row][m]/bufDet[m][m];
+            for (int col = m; col < detSize; ++col) {
+                bufDet[row][col] = bufDet[row][col] - bufDet[m][col] * k;
+                res[row][col] = res[row][col] - res[m][col] * k;
+            }
+            double temp = bufDet[m][m];
+            for (int col = 0; col < detSize; ++col) {
+                bufDet[m][col] = bufDet[m][col] / temp;
+                res[m][col] = res[m][col]/temp;
+            }
+        }
+    }
+    int tempM = detSize - 1;
+    double temp = bufDet[tempM][tempM];
+    for (int col = 0; col < detSize; ++col) {
+        bufDet[tempM][col] = bufDet[tempM][col] / temp;
+        res[tempM][col] = res[tempM][col]/temp;
+    }
+
+    for (int m = 0; m < detSize; ++ m) {
+        for (int row = m ; row > 0; --row){
+            double k = bufDet[row - 1][m];
+            for (int col = 0 ; col < detSize; ++col) {
+                bufDet[row - 1][col] = bufDet[row - 1][col] - bufDet[m][col] * k;
+                res[row - 1][col] = res[row - 1][col] - res[m][col] * k;
+            }
+        }
+    }
+    pMatrix3Model->setRowCount(detSize);
+    pMatrix3Model->setColumnCount(detSize);
+    for (int i = 0 ; i < detSize; ++i){
+        for (int j = 0; j < detSize; ++j) {
+            pMatrix3Model->setData(i, j, res[i][j]);
+        }
+    }
+}
+
+void window::slotFindReversedB() {
+    if(pMatrix2Model->rowCount() != pMatrix2Model->columnCount() || pMatrix2Model->rowCount() == 0 || pMatrix2Model->columnCount() == 0) {
+        QMessageBox::information(0, "ERROR", "Matrix is not a square matrix");
+        return;
+    }
+    QVector<QVector<double>> bufDet = pMatrix2Model->GetVectoredMat(); // buffer determ.
+    QVector<QVector<double>> res;
+
+    int detSize = bufDet.size(); // size of determ.
+
+    for(int i = 0; i < detSize; ++i) {
+        res.append(QVector<double>());
+        for (int j = 0; j < detSize; ++j) {
+            if(i == j) res[i].append(1);
+            else res[i].append(0);
+        }
+    }
+
+    for(int m = 0; m < detSize; ++m){
+        for (int row = m + 1; row < detSize; ++row) {
+            for (int count = row; bufDet[m][m] == 0 && count < detSize; ++count) {
+                bufDet[m].swap(bufDet[count]);
+                res[m].swap(res[count]);
+            }
+            if(bufDet[m][m] == 0) {
+                break;
+            }
+            double k = bufDet[row][m]/bufDet[m][m];
+            for (int col = m; col < detSize; ++col) {
+                bufDet[row][col] = bufDet[row][col] - bufDet[m][col] * k;
+                res[row][col] = res[row][col] - res[m][col] * k;
+            }
+            double temp = bufDet[m][m];
+            for (int col = 0; col < detSize; ++col) {
+                bufDet[m][col] = bufDet[m][col] / temp;
+                res[m][col] = res[m][col]/temp;
+            }
+        }
+    }
+    int tempM = detSize - 1;
+    double temp = bufDet[tempM][tempM];
+    for (int col = 0; col < detSize; ++col) {
+        bufDet[tempM][col] = bufDet[tempM][col] / temp;
+        res[tempM][col] = res[tempM][col]/temp;
+    }
+
+    for (int m = 0; m < detSize; ++ m) {
+        for (int row = m ; row > 0; --row){
+            double k = bufDet[row - 1][m];
+            for (int col = 0 ; col < detSize; ++col) {
+                bufDet[row - 1][col] = bufDet[row - 1][col] - bufDet[m][col] * k;
+                res[row - 1][col] = res[row - 1][col] - res[m][col] * k;
+            }
+        }
+    }
+    pMatrix3Model->setRowCount(detSize);
+    pMatrix3Model->setColumnCount(detSize);
+    for (int i = 0 ; i < detSize; ++i){
+        for (int j = 0; j < detSize; ++j) {
+            pMatrix3Model->setData(i, j, res[i][j]);
         }
     }
 }
